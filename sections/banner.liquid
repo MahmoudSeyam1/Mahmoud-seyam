@@ -1,0 +1,144 @@
+<!-- Link CSS -->
+<link rel="stylesheet" href="{{ 'banner.css' | asset_url }}" type="text/css">
+
+<!-- Link JS -->
+<script src="{{ 'banner.js' | asset_url }}" defer></script>
+
+{% comment %}
+  Banner Section
+{% endcomment %}
+<section class="banner-section">
+  <header class="header-text">
+         <h1>TISSO VISON</h1>
+        <p class="find-gift">Find the ideal gift for your loved ones.</p>
+        <a href="http://127.0.0.1:9292/gift_cards/[store_id]/preview" class="choose-gift-button">Choose Gift →</a>
+    </header>
+    <div class="banner-image1">
+        <img src="{{ section.settings.banner_image | img_url: 'master' }}" alt="Banner Image" width="" height="">
+    </div>
+    <div class="container">
+        <div class="banner-content">
+            <!-- Added fallback for title and description -->
+            <h1>{{ section.settings.title | default: 'The Gift Guide' }}</h1>
+            <p>{{ section.settings.description | default: 'Discover Joy: Your ultimate holiday gift destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.' }}</p>
+            <!-- Ensure button text and link are rendered properly -->
+            <a href="{{ section.settings.button_link | default: '/cart' }}" class="shop-button">{{ section.settings.button_text | default: 'Shop Now →' }}</a>
+        </div>
+        {% if section.settings.second_banner_image != blank %}
+        <div class="banner-image2">
+            <img src="{{ section.settings.second_banner_image | img_url: 'master' }}" alt="Second Banner Image" width="" height="">
+        </div>
+        {% endif %}
+    </div>
+     <section class="footer-note">
+      <p>Sustainable, ethically made clothes in sizes XXS to 6XL.</p>
+  </section>
+</section>
+
+{% comment %}
+  Grid Section
+{% endcomment %}
+<section class="grid-section">
+    <div class="grid-container">
+        {% if section.blocks.size > 0 %}
+            {% for block in section.blocks %}
+            <div class="grid-item">
+                <!-- Added fallback for block fields -->
+                <img src="{{ block.settings.image | img_url: 'medium' }}" alt="{{ block.settings.alt_text | default: 'Product Image' }}" width="400" height="300">
+                <h3>{{ block.settings.product_name | default: 'Product Name' }}</h3>
+                <button class="view-details" data-product-id="{{ block.settings.product_id | default: '' }}" 
+                    data-product-name="{{ block.settings.product_name | default: 'Product Name' }}" 
+                    data-product-description="{{ block.settings.product_description | default: 'Product Description' }}" 
+                    data-product-image="{{ block.settings.image | img_url: 'medium' }}">
+                    +
+                </button>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="no-products">No products available in this section.</p>
+        {% endif %}
+      </div>
+</section>
+
+
+
+{% schema %}
+{
+  "name": "Custom Page",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "The Gift Guide"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season."
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link",
+      "default": "/"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Shop Now →"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Banner Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "second_banner_image",
+      "label": "Second Banner Image"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Product Image"
+        },
+        {
+          "type": "text",
+          "id": "product_name",
+          "label": "Product Name"
+        },
+        {
+          "type": "textarea",
+          "id": "product_description",
+          "label": "Product Description"
+        },
+        {
+          "type": "text",
+          "id": "product_id",
+          "label": "Product ID"
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Image Alt Text",
+          "default": "Product image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Page Layout"
+    }
+  ]
+}
+{% endschema %}
